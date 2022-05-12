@@ -8,8 +8,8 @@ public class Point {
 	private ArrayList<Point> neighbors;
 	private Site currentState;
 	private Site nextState;
-	private static double p = 0.2;
-	private static double q = 0.3;
+	private static double p = 0.5;
+	private static double q = 0.1;
 	private static double pRecover = q;
 	private static double pInfect = 1.0 - Math.pow(1.0 - p, 8);
 	private boolean used = false;
@@ -38,6 +38,9 @@ public class Point {
 	}
 
 	public void calculateNewState() {
+		if (this.used)
+			return;
+
 		switch(simulationModel)
 		{
 			case SIR -> {
