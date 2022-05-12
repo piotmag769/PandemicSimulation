@@ -14,18 +14,25 @@ import javax.swing.event.ChangeListener;
  * Class containing main_package.GUI: board + buttons
  */
 public class GUI extends JPanel implements ActionListener, ChangeListener {
-	private static final long serialVersionUID = 1L;
+
 	private Timer timer;
 	private Board board;
+
 	private JComboBox<String> simulationList;
+	private JSlider pSlider;
+	private JSlider qSlider;
+
 	private JButton start;
 	private JButton clear;
 	private JSlider pred;
-	private JFrame frame;
+
+
+	private final JFrame frame;
 	private int iterNum = 0;
 	private final int maxDelay = 500;
 	private final int initDelay = 100;
 	private boolean running = false;
+	private boolean allCreated = false;
 
 	public GUI(JFrame jf) {
 		frame = jf;
@@ -47,10 +54,28 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		simulationList.setActionCommand("simulation changed");
 		simulationList.addActionListener(this);
 
+		// WHY DOESN'T IT WORK
+		pSlider = new JSlider(0, 100, 20);
+		pSlider.setToolTipText("p value");
+		pSlider.setMajorTickSpacing(20);
+		pSlider.setMinorTickSpacing(5);
+		pSlider.setPaintTicks(true);
+		pSlider.setPaintLabels(true);
+		pSlider.addChangeListener(this);
+
+		qSlider = new JSlider(0, 100, 20);
+		qSlider.setToolTipText("p value");
+		qSlider.setMinorTickSpacing(20);
+		qSlider.setMinorTickSpacing(5);
+		qSlider.setPaintTicks(true);
+		qSlider.setPaintLabels(true);
+		qSlider.addChangeListener(this);
+
 		start = new JButton("Start");
 		start.setActionCommand("Start");
 		start.setToolTipText("Starts clock");
 		start.addActionListener(this);
+
 
 		clear = new JButton("Clear");
 		clear.setActionCommand("clear");
@@ -64,7 +89,12 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		pred.addChangeListener(this);
 		pred.setValue(maxDelay - timer.getDelay());
 
+
+		buttonPanel.add(pSlider);
+		buttonPanel.add(qSlider);
+
 		buttonPanel.add(simulationList);
+
 		buttonPanel.add(start);
 		buttonPanel.add(clear);
 		buttonPanel.add(pred);
@@ -72,6 +102,8 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		board = new Board(1024, 768 - buttonPanel.getHeight());
 		container.add(board, BorderLayout.CENTER);
 		container.add(buttonPanel, BorderLayout.SOUTH);
+
+		allCreated = true;
 	}
 
 	/**
@@ -137,6 +169,9 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
 	 */
 	public void stateChanged(ChangeEvent e) {
+		// TODO
+		if(allCreated){
 		timer.setDelay(maxDelay - pred.getValue());
+		}
 	}
 }

@@ -2,37 +2,80 @@ package main_package;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.Math;
 
 public class Point {
 	private ArrayList<Point> neighbors;
-	private int currentState;
-	private int nextState;
-	private int numStates = 6;
-	// not needed for now but i will leave it
+	private Site currentState;
+	private Site nextState;
+	private static double p = 0.2;
+	private static double q = 0.3;
+	private static double pRecover = q;
+	private static double pInfect = 1.0 - Math.pow(1.0 - p, 8);
+	private boolean used = false;
+
+	// not needed for now but I will leave it
 	private static Model simulationModel = Model.SIR;
 	// same as above
 	private final Random random = new Random();
 
 	public Point() {
-		currentState = 0;
-		nextState = 0;
-		neighbors = new ArrayList<Point>();
+		currentState = Site.S;
+		nextState = Site.S;
 	}
+
 
 	public void clicked() {
-		currentState = (++currentState) % numStates;
+		currentState = currentState.next(simulationModel);
 	}
 
-	public int getState() {
+	public Site getState() {
 		return currentState;
 	}
 
-	public void setState(int s) {
+	public void setState(Site s) {
 		currentState = s;
 	}
 
 	public void calculateNewState() {
+		switch(simulationModel)
+		{
+			case SIR -> {
+				if(this.currentState == Site.I)
+				{
+					if (random.nextDouble() < pRecover)
+						this.nextState = Site.R;
+					else {
+						Point randomNeighbor = neighbors.get(random.nextInt(neighbors.size()));
+						// if not used (!)
+						if (!randomNeighbor.used && randomNeighbor.currentState == Site.S && random.nextDouble() < pInfect)
+							randomNeighbor.nextState = Site.I;
 
+						randomNeighbor.used = true;
+					}
+					this.used = true;
+				}
+			}
+			case SIS -> {
+				if(this.currentState == Site.I)
+				{
+					if (random.nextDouble() < pRecover)
+						this.nextState = Site.S;
+					else {
+						Point randomNeighbor = neighbors.get(random.nextInt(neighbors.size()));
+						// if not used (!)
+						if (!randomNeighbor.used && randomNeighbor.currentState == Site.S && random.nextDouble() < pInfect)
+							randomNeighbor.nextState = Site.I;
+
+						randomNeighbor.used = true;
+					}
+					this.used = true;
+				}
+			}
+			case SIRV -> {
+			}
+		}
+		// idk
 	}
 
 	public void changeState() {
@@ -44,7 +87,7 @@ public class Point {
 	}
 
 	// Moore neighborhood
-	// TODO: maybe dont assign to points at the edges, idk
+	// TODO: maybe don't assign to points at the edges, idk
 	public void assignNeighbors(Point[][] points, int length, int height, int x, int y) {
 		neighbors = new ArrayList<>();
 		for (int a = Math.max(0, x - 1); a <= Math.min(length - 1, x + 1); a++)
@@ -59,7 +102,11 @@ public class Point {
 		Point.simulationModel = simulationModel;
 	}
 
-	public void setNextState(int nextState) {
+	public void setNextState(Site nextState) {
 		this.nextState = nextState;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
 	}
 }
