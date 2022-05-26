@@ -12,7 +12,9 @@ public class Point {
 	private static double q = 0.1;
 	private static double pRecover = q;
 	private static double pInfect = 1.0 - Math.pow(1.0 - p, 8);
+	private static double pVaccine = 0.01;
 	private boolean used = false;
+	private int vaccineDay = 0;
 
 	// not needed for now but I will leave it
 	private static Model simulationModel = Model.SIR;
@@ -33,13 +35,15 @@ public class Point {
 		return currentState;
 	}
 
-	public Site getNextState(){ return nextState; }
+	public Site getNextState(){
+		return nextState;
+	}
 
 	public void setState(Site s) {
 		currentState = s;
 	}
 
-	public void calculateNewState() {
+	public void calculateNewState(int day) {
 		if (this.used)
 			return;
 
@@ -50,7 +54,6 @@ public class Point {
 				{
 					if (random.nextDouble() < pRecover)
 						this.nextState = Site.R;
-
 					else {
 						Point randomNeighbor = neighbors.get(random.nextInt(neighbors.size()));
 						// if not used (!)
@@ -79,9 +82,30 @@ public class Point {
 				}
 			}
 			case SIRV -> {
+				if(this.currentState == Site.I)
+				{
+					if (random.nextDouble() < pRecover)
+						this.nextState = Site.R;
+					else {
+						Point randomNeighbor = neighbors.get(random.nextInt(neighbors.size()));
+						if (!randomNeighbor.used && randomNeighbor.currentState == Site.S && random.nextDouble() < pInfect && randomNeighbor.currentState != Site.V)
+							randomNeighbor.nextState = Site.I;
+
+						randomNeighbor.used = true;
+					}
+					this.used = true;
+				}
+				if(this.currentState == Site.V){
+					if (day - vaccineDay < 40) this.nextState = Site.V;
+					else this.nextState = Site.S;
+				}
+				if(this.currentState == Site.S){
+					if (random.nextDouble() < pVaccine)
+						this.nextState = Site.V;
+					this.vaccineDay = day;
+				}
 			}
 		}
-		// idk
 	}
 
 	public void changeState() {

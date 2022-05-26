@@ -19,6 +19,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 	private Point[][] points;
 	private int size = 14;
 	private Statistics statistics;
+	private int dayNumber = 0;
 
 	private Model simulationModel = Model.SIR;
 
@@ -28,6 +29,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 		addMouseMotionListener(this);
 		setBackground(Color.WHITE);
 		setOpaque(true);
+		statistics = new Statistics();
 	}
 
 	// single iteration
@@ -38,7 +40,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 
 		for (Point[] point : points) {
 			for (Point value : point){
-				value.calculateNewState();
+				value.calculateNewState(dayNumber);
 
 				if (value.getState() == Site.S && value.getNextState() == Site.I) statistics.infectOne();
 				else if (value.getState() == Site.I && value.getNextState() == Site.R) statistics.recoverOne();
@@ -52,16 +54,19 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 
 		statistics.nextDay();
 		this.repaint();
+		dayNumber += 1;
 	}
 
 	// clearing board
 	public void clear() {
-		for (Point[] point : points)
+		for (Point[] point : points) {
 			for (Point value : point) {
 				value.setState(Site.S);
 				value.setNextState(Site.S);
 			}
+		}
 		this.repaint();
+		dayNumber = 0;
 	}
 
 	private void initialize(int length, int height) {

@@ -1,8 +1,15 @@
 package main_package;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.embed.swing.JFXPanel;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,9 +33,7 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 	private JButton clear;
 	private JSlider pred;
 
-
-	private ChartsBox statsBox;
-
+	private VBox statsBox;
 
 	private final JFrame frame;
 	private int iterNum = 0;
@@ -92,8 +97,6 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		pred.addChangeListener(this);
 		pred.setValue(maxDelay - timer.getDelay());
 
-
-
 		buttonPanel.add(pSlider);
 		buttonPanel.add(qSlider);
 
@@ -104,13 +107,27 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		buttonPanel.add(pred);
 
 		board = new Board(1024, 768 - buttonPanel.getHeight());
-		statsBox  = new ChartsBox(board.getStatistics());
-		container.add(board, BorderLayout.CENTER);
 
+
+		JFXPanel panel = new JFXPanel();
+
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				statsBox  = new ChartsBox(board);
+				StackPane stack = new StackPane();
+				Scene scene = new Scene(stack,300,300);
+				panel.setScene(scene);
+				stack.getChildren().add(statsBox);
+
+			}
+		});
+
+		container.add(board, BorderLayout.CENTER);
 		container.add(buttonPanel, BorderLayout.SOUTH);
 
-		// TODO - krzyczy
-		container.add(statsBox, BorderLayout.CENTER);
+
+		container.add(panel, BorderLayout.WEST);
 
 		allCreated = true;
 	}

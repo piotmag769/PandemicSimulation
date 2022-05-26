@@ -4,6 +4,8 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import javax.swing.*;
+import java.awt.*;
 public class ChartsBox extends VBox {
 
     private SingleChartBox sus;
@@ -11,16 +13,15 @@ public class ChartsBox extends VBox {
     private SingleChartBox recovered;
     private SingleChartBox vaccinated;
     private Board board;
-    private Statistics statistics;
 
-    public ChartsBox(Statistics statistics) {
+    public ChartsBox(Board board) {
         super();
-        this.statistics = statistics;
+        this.board = board;
 
-        this.sus = new SingleChartBox( "sus number", "time", statistics.getS());
-        this.infected = new SingleChartBox("infected number", "time", statistics.getI());
-        this.recovered = new SingleChartBox("recovered number", "time", statistics.getR());
-        this.vaccinated = new SingleChartBox("recovered number", "time", statistics.getV());
+        this.sus = new SingleChartBox( board, "sus number", "time", board.getStatistics().getS());
+        this.infected = new SingleChartBox(board, "infected number", "time", board.getStatistics().getI());
+        this.recovered = new SingleChartBox(board,  "recovered number", "time", board.getStatistics().getR());
+        this.vaccinated = new SingleChartBox(board, "recovered number", "time", board.getStatistics().getV());
 
         VBox allCharts = new VBox(sus, infected, recovered, vaccinated);
         allCharts.setSpacing(10);
@@ -29,10 +30,10 @@ public class ChartsBox extends VBox {
     }
 
     public void updateCharts() {
-        this.sus.updateChart(statistics.getS());
-        this.infected.updateChart(statistics.getI());
-        this.recovered.updateChart(statistics.getR());
-        this.vaccinated.updateChart(statistics.getV());
+        this.sus.updateChart(board.getStatistics().getS());
+        this.infected.updateChart(board.getStatistics().getI());
+        this.recovered.updateChart(board.getStatistics().getR());
+        this.vaccinated.updateChart(board.getStatistics().getV());
     }
 
 
