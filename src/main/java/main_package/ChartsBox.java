@@ -21,7 +21,7 @@ public class ChartsBox extends VBox {
         this.sus = new SingleChartBox( board, "sus number", "time", board.getStatistics().getS());
         this.infected = new SingleChartBox(board, "infected number", "time", board.getStatistics().getI());
         this.recovered = new SingleChartBox(board,  "recovered number", "time", board.getStatistics().getR());
-        this.vaccinated = new SingleChartBox(board, "recovered number", "time", board.getStatistics().getV());
+        this.vaccinated = new SingleChartBox(board, "vaccinated number", "time", board.getStatistics().getV());
 
         VBox allCharts = new VBox(sus, infected, recovered, vaccinated);
         allCharts.setSpacing(10);
