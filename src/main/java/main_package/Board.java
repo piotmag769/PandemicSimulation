@@ -30,6 +30,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 		setBackground(Color.WHITE);
 		setOpaque(true);
 		statistics = new Statistics();
+		statistics.setS(length*height);
 	}
 
 	// single iteration
@@ -52,7 +53,8 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 			for (Point value : point)
 				value.changeState();
 
-		statistics.nextDay();
+		System.out.println("S " + statistics.getS() + " I " + statistics.getI() + " R " + statistics.getR() + " V " + statistics.getV());
+		//statistics.nextDay();
 		this.repaint();
 		dayNumber += 1;
 	}

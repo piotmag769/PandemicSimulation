@@ -2,7 +2,7 @@ package main_package;
 
 public class Statistics {
 
-    private int sus = 0;
+    private int sus;
     private int infected = 0;
     private int recovered = 0;
     private int vaccinated = 0;
@@ -29,11 +29,11 @@ public class Statistics {
 
     // nwm po co to bo niby powinno być ale chyba nie potrzebujemy
 //
-//    public void setS(int s){ sus = s; }
-//    public void setI(int i){ infected = i; }
-//    public void setR(int r){ recovered = r; }
-//    public void setV(int v){ vaccinated = v; }
-//    public void getDays(int d){ days = d; }
+    public void setS(int s){ sus = s; }
+    public void setI(int i){ infected = i; }
+    public void setR(int r){ recovered = r; }
+    public void setV(int v){ vaccinated = v; }
+    public void getDays(int d){ days = d; }
 //
     public int getS(){ return sus; }
     public int getI(){ return infected; }
