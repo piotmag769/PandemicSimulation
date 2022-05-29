@@ -33,7 +33,7 @@ public class Statistics {
     public void setI(int i){ infected = i; }
     public void setR(int r){ recovered = r; }
     public void setV(int v){ vaccinated = v; }
-    public void getDays(int d){ days = d; }
+    public void setDays(int d){ days = d; }
 //
     public int getS(){ return sus; }
     public int getI(){ return infected; }

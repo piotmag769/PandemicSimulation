@@ -54,9 +54,9 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 				value.changeState();
 
 		System.out.println("S " + statistics.getS() + " I " + statistics.getI() + " R " + statistics.getR() + " V " + statistics.getV());
-		//statistics.nextDay();
 		this.repaint();
 		dayNumber += 1;
+		statistics.setDays(dayNumber);
 	}
 
 	// clearing board

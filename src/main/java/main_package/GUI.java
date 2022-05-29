@@ -33,7 +33,7 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 	private JButton clear;
 	private JSlider pred;
 
-	private VBox statsBox;
+	private ChartsBox statsBox;
 
 	private final JFrame frame;
 	private int iterNum = 0;
@@ -141,11 +141,13 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 			iterNum++;
 			frame.setTitle(simulationList.getSelectedItem() + " (" + Integer.toString(iterNum) + " iteration)");
 			board.iteration();
+			statsBox.updateCharts();
 		} else {
 			String command = e.getActionCommand();
 			switch (command) {
 				case "Start" -> {
 					if (!running) {
+
 						timer.start();
 						start.setText("Pause");
 					} else {
