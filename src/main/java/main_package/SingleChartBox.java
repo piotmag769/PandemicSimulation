@@ -25,6 +25,8 @@ public class SingleChartBox extends VBox {
         this.yDataToAdd = yDataToAdd;
         this.series.getData().add(new XYChart.Data(board.getStatistics().getDay(), yDataToAdd));
         this.chart.getData().add(this.series);
+        this.chart.setCreateSymbols(false);
+        //this.chart.setLegendVisible(false);
         this.chart.setMaxSize(300, 230);
         this.getChildren().add(this.chart);
     }

@@ -30,7 +30,6 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 		setBackground(Color.WHITE);
 		setOpaque(true);
 		statistics = new Statistics();
-		statistics.setS(size*size);
 	}
 
 	// single iteration
@@ -53,7 +52,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 			for (Point value : point)
 				value.changeState();
 
-		System.out.println("S " + statistics.getS() + " I " + statistics.getI() + " R " + statistics.getR() + " V " + statistics.getV());
+		//System.out.println("S " + statistics.getS() + " I " + statistics.getI() + " R " + statistics.getR() + " V " + statistics.getV());
 		this.repaint();
 		dayNumber += 1;
 		statistics.setDays(dayNumber);
@@ -77,6 +76,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 		for (int x = 0; x < points.length; ++x)
 			for (int y = 0; y < points[x].length; ++y)
 				points[x][y] = new Point();
+
 
 		assignAllNeighbors();
 	}
