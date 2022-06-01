@@ -141,13 +141,8 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 			iterNum++;
 			frame.setTitle(simulationList.getSelectedItem() + " (" + Integer.toString(iterNum) + " iteration)");
 			board.iteration();
-			//statsBox.updateCharts();
-			Platform.runLater(new Runnable(){
-				@Override
-				public void run() {
-					statsBox.updateCharts();
-				}
-			});
+
+			Platform.runLater(() -> statsBox.updateCharts());
 
 		} else {
 			String command = e.getActionCommand();
