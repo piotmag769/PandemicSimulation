@@ -3,9 +3,9 @@ package main_package;
 public class Statistics {
 
     private int sus;
-    private int infected = 0;
-    private int recovered = 0;
-    private int vaccinated = 0;
+    private int infected;
+    private int recovered;
+    private int vaccinated;
     private int days = 0;
     private double avgInfected = 0;
     private double avgRecovered= 0;

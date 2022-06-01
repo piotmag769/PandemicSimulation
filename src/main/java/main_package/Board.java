@@ -30,7 +30,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 		setBackground(Color.WHITE);
 		setOpaque(true);
 		statistics = new Statistics();
-		statistics.setS(length*height);
+		statistics.setS(size*size);
 	}
 
 	// single iteration
@@ -123,6 +123,21 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 
 			}
 		}
+		int init_susceptible = 0, init_infected = 0, init_recovered = 0, init_vaccinated = 0;
+		for (x = 0; x < points.length; ++x) {
+			for (y = 0; y < points[x].length; ++y) {
+				switch(points[x][y].getState()) {
+					case S -> init_susceptible++;
+					case I -> init_infected++;
+					case R -> init_recovered++;
+					case V -> init_vaccinated++;
+				}
+			}
+		}
+		statistics.setS(init_susceptible);
+		statistics.setI(init_infected);
+		statistics.setR(init_recovered);
+		statistics.setV(init_vaccinated);
 
 	}
 
