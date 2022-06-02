@@ -8,11 +8,12 @@ public class Point {
 	private ArrayList<Point> neighbors;
 	private Site currentState;
 	private Site nextState;
-	private static double p = 0.5;
-	private static double q = 0.1;
+	private static double p = 0.5; // 0.5 - covid, 0.9 - H1N1
+	private static double q = 0.2; // 0.2 - covid, 0.1 - H1N1
 	private static double pRecover = q;
 	private static double pInfect = 1.0 - Math.pow(1.0 - p, 8);
 	private static double pVaccine = 0.01;
+	private static int daysVaccineGivesImmunity = 100;
 	private boolean used = false;
 	private int vaccineDay = 0;
 
@@ -96,7 +97,7 @@ public class Point {
 					this.used = true;
 				}
 				if(this.currentState == Site.V){
-					if (day - vaccineDay < 40) this.nextState = Site.V;
+					if (day - vaccineDay < daysVaccineGivesImmunity) this.nextState = Site.V;
 					else this.nextState = Site.S;
 				}
 				if(this.currentState == Site.S){

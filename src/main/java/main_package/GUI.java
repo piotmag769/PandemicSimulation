@@ -111,16 +111,13 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 
 		JFXPanel panel = new JFXPanel();
 
-		Platform.runLater(new Runnable(){
-			@Override
-			public void run() {
-				statsBox  = new ChartsBox(board);
-				StackPane stack = new StackPane();
-				Scene scene = new Scene(stack,300,300);
-				panel.setScene(scene);
-				stack.getChildren().add(statsBox);
+		Platform.runLater(() -> {
+			statsBox  = new ChartsBox(board);
+			StackPane stack = new StackPane();
+			Scene scene = new Scene(stack,300,300);
+			panel.setScene(scene);
+			stack.getChildren().add(statsBox);
 
-			}
 		});
 
 		container.add(board, BorderLayout.CENTER);
