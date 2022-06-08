@@ -10,10 +10,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
 
-/**
- * main_package.Board with Points that may be expanded (with automatic change of cell
- * number) with mouse event listener
- */
 
 public class Board extends JComponent implements MouseInputListener, ComponentListener {
 	private Point[][] points;
@@ -181,6 +177,10 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 
 	public Statistics getStatistics(){
 		return statistics;
+	}
+
+	public int getDayNumber() {
+		return dayNumber;
 	}
 
 	public void mouseExited(MouseEvent e) {

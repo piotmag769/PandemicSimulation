@@ -117,16 +117,13 @@ public class Point {
 		neighbors.add(nei);
 	}
 
-	// Moore neighborhood
-	// TODO: maybe don't assign to points at the edges, idk
+	// Moore's neighborhood - r = 1
 	public void assignNeighbors(Point[][] points, int length, int height, int x, int y) {
 		neighbors = new ArrayList<>();
-		for (int a = Math.max(0, x - 1); a <= Math.min(length - 1, x + 1); a++)
-			for (int b = Math.max(0, y - 1); b <= Math.min(height - 1, y + 1); b++)
-				if (a != x || b != y) {
-//						System.out.println(x + " " + y + ": " + a + " " + b);
+		for (int a = Math.max(1, x - 1); a <= Math.min(length - 2, x + 1); a++)
+			for (int b = Math.max(1, y - 1); b <= Math.min(height - 2, y + 1); b++)
+				if (a != x || b != y)
 					this.addNeighbor(points[a][b]);
-				}
 	}
 
 	public static void setSimulationModel(Model simulationModel) {
@@ -139,5 +136,17 @@ public class Point {
 
 	public void setUsed(boolean used) {
 		this.used = used;
+	}
+
+	public static void setP(double p) {
+		Point.p = p;
+	}
+
+	public static void setQ(double q) {
+		Point.q = q;
+	}
+
+	public static void setpVaccine(double pVaccine) {
+		Point.pVaccine = pVaccine;
 	}
 }

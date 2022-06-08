@@ -28,6 +28,7 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 	private JComboBox<String> simulationList;
 	private JSlider pSlider;
 	private JSlider qSlider;
+	private JSlider vaccSlider;
 
 	private JButton start;
 	private JButton clear;
@@ -48,23 +49,19 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		timer.stop();
 	}
 
-	/**
-	 * @param container to which main_package.GUI and board is added
-	 */
+
 	public void initialize(Container container) {
 		container.setLayout(new BorderLayout());
 		container.setSize(new Dimension(1024, 768));
 
 		JPanel buttonPanel = new JPanel();
 
-		// TODO: maybe more, idk
 		simulationList = new JComboBox<>(new String[]{"SIR", "SIS", "SIRV"});
 		simulationList.setActionCommand("simulation changed");
 		simulationList.addActionListener(this);
 
-		// WHY DOESN'T IT WORK
-		pSlider = new JSlider(0, 100, 20);
-		pSlider.setToolTipText("p value");
+		pSlider = new JSlider(0, 100, 50);
+		pSlider.setToolTipText("probability of emission");
 		pSlider.setMajorTickSpacing(20);
 		pSlider.setMinorTickSpacing(5);
 		pSlider.setPaintTicks(true);
@@ -72,18 +69,25 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		pSlider.addChangeListener(this);
 
 		qSlider = new JSlider(0, 100, 20);
-		qSlider.setToolTipText("p value");
-		qSlider.setMinorTickSpacing(20);
+		qSlider.setToolTipText("probability of recovery");
+		qSlider.setMajorTickSpacing(20);
 		qSlider.setMinorTickSpacing(5);
 		qSlider.setPaintTicks(true);
 		qSlider.setPaintLabels(true);
 		qSlider.addChangeListener(this);
 
+		vaccSlider = new JSlider(0, 20, 1);
+		vaccSlider.setToolTipText("probability of vaccination");
+		vaccSlider.setMajorTickSpacing(5);
+		vaccSlider.setMinorTickSpacing(1);
+		vaccSlider.setPaintTicks(true);
+		vaccSlider.setPaintLabels(true);
+		vaccSlider.addChangeListener(this);
+
 		start = new JButton("Start");
 		start.setActionCommand("Start");
 		start.setToolTipText("Starts clock");
 		start.addActionListener(this);
-
 
 		clear = new JButton("Clear");
 		clear.setActionCommand("clear");
@@ -97,17 +101,17 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		pred.addChangeListener(this);
 		pred.setValue(maxDelay - timer.getDelay());
 
-		buttonPanel.add(pSlider);
-		buttonPanel.add(qSlider);
-
 		buttonPanel.add(simulationList);
 
 		buttonPanel.add(start);
 		buttonPanel.add(clear);
 		buttonPanel.add(pred);
 
-		board = new Board(1024, 768 - buttonPanel.getHeight());
+		buttonPanel.add(pSlider);
+		buttonPanel.add(qSlider);
+		buttonPanel.add(vaccSlider);
 
+		board = new Board(1024, 768 - buttonPanel.getHeight());
 
 		JFXPanel panel = new JFXPanel();
 
@@ -129,17 +133,15 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		allCreated = true;
 	}
 
-	/**
-	 * handles clicking on each button
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(timer)) {
 			iterNum++;
 			frame.setTitle(simulationList.getSelectedItem() + " (" + Integer.toString(iterNum) + " iteration)");
 			board.iteration();
 
-			Platform.runLater(() -> statsBox.updateCharts());
+			if (board.getDayNumber() != 0)
+				Platform.runLater(() -> statsBox.updateCharts());
 
 		} else {
 			String command = e.getActionCommand();
@@ -190,14 +192,14 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		}
 	}
 
-	/**
-	 * slider to control simulation speed
-	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-	 */
+
 	public void stateChanged(ChangeEvent e) {
-		// TODO
-		if(allCreated){
-		timer.setDelay(maxDelay - pred.getValue());
+		if(allCreated)
+		{
+			timer.setDelay(maxDelay - pred.getValue());
+			Point.setP(pSlider.getValue() / 100.0);
+			Point.setQ(qSlider.getValue() / 100.0);
+			Point.setpVaccine(vaccSlider.getValue() / 100.0);
 		}
 	}
 }
