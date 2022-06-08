@@ -112,7 +112,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 				switch (points[x][y].getState()) {
 					case S -> g.setColor(new Color(0xbb00ff));
 					case I -> g.setColor(new Color(0xff0000));
-					case R -> g.setColor(new Color(0xffffff));
+					case R -> g.setColor(new Color(0xFFFFFF));
 					case V -> g.setColor(new Color(0x00ff00));
 				}
 					g.fillRect((x * size) + 1, (y * size) + 1, (size - 1), (size - 1));

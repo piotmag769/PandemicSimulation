@@ -37,7 +37,7 @@ public class ChartsBox extends VBox {
         }
         for(Node n : this.recovered.chart.getChildrenUnmodifiable()){
             if(n instanceof Legend){
-                for(Legend.LegendItem legendItem : ((Legend)n).getItems()){ legendItem.getSymbol().setStyle("-fx-background-color: #000000, white;");}
+                for(Legend.LegendItem legendItem : ((Legend)n).getItems()){ legendItem.getSymbol().setStyle("-fx-background-color: #ffffff, white;");}
             }
         }
         for(Node n : this.vaccinated.chart.getChildrenUnmodifiable()){
@@ -52,7 +52,7 @@ public class ChartsBox extends VBox {
         Node line_vac = this.vaccinated.series.getNode().lookup(".chart-series-line");
         String rgb_sus = String.format("%d, %d, %d", 187, 0, 255);
         String rgb_inf = String.format("%d, %d, %d", 255, 0, 0);
-        String rgb_rec = String.format("%d, %d, %d", 0, 0, 0);
+        String rgb_rec = String.format("%d, %d, %d", 255, 255, 255);
         String rgb_vac = String.format("%d, %d, %d", 0, 255, 0);
         line_sus.setStyle("-fx-stroke: rgba(" + rgb_sus + ", 1.0);");
         line_inf.setStyle("-fx-stroke: rgba(" + rgb_inf + ", 1.0);");
